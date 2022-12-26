@@ -1,0 +1,90 @@
+#include<iostream>
+#include<stack>
+
+
+using namespace std;
+
+struct node{
+node *l;
+node *r;
+char data;
+};
+node *root;
+void postorder(node* temp)
+{
+if(temp!=NULL)
+{
+postorder(temp->l);
+postorder(temp->r);
+cout<<temp->data;
+}
+}
+
+void create_tree()
+{int l,j;
+int i = 10;
+char ch;
+stack<node*>s;
+char arr[20];
+cout<<"\nEnter no of char in prefix exp";
+cin>>l;
+
+for(j=0;j<l;j++)
+{
+cout<<"enter the expression elements";
+cin>>arr[j];
+}
+
+
+i = l - 1;
+
+while(i>=0)
+{
+ch=arr[i];
+node* nnode=new node;
+nnode->data=ch;
+nnode->l=NULL;
+nnode->r=NULL;
+//cout<<"\n curr char is"<<ch;
+if(int(ch) >= 97 && ch<=122)
+{
+s.push(nnode);
+//cout<<"\n"<<nnode->data<<"is pushed";
+//cout<<s.top()->data;
+}
+else
+{
+nnode->l=s.top();
+s.pop();
+if (!s.empty())
+{
+	nnode->r = s.top();
+	s.pop();
+}
+s.push(nnode);
+
+}
+
+i--;
+
+}
+node* root = s.top();
+cout << "The postfix expression is";
+postorder(root);
+}
+
+void delete_tree()
+{
+	root=NULL;
+	cout<<"Tree is deleted.";
+}
+
+
+int main()
+{
+
+create_tree();
+
+delete_tree();
+return 0;
+}
